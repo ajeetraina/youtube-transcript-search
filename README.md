@@ -33,3 +33,44 @@ graph TD
     C --> J[Transcripts]
     C --> K[Video Metadata]
     end
+```
+
+## Tech Stack
+
+### Frontend
+- React.js
+- TailwindCSS for styling
+- React Player for video playback
+- Axios for API calls
+
+### Backend
+- Node.js with Express
+- YouTube Transcript API
+- Full-text search implementation
+- RESTful API endpoints
+
+### Database
+TBD (Awaiting choice between):
+- MongoDB
+- PostgreSQL
+- Elasticsearch
+
+## Setup Instructions
+
+(To be added once initial development is complete)
+
+## API Endpoints
+
+### Transcript Management
+- `POST /api/transcripts` - Add new video transcript
+- `GET /api/transcripts/:videoId` - Get transcript by video ID
+- `GET /api/search?q=:query` - Search through transcripts
+
+## Development Status
+🚧 Under Development
+
+## Contributing
+Instructions for contributing will be added soon.
+
+## License
+MIT License
