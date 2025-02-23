@@ -1,17 +1,8 @@
 # YouTube Transcript Search Engine
 
-A full-stack application that allows users to search through YouTube video transcripts with timestamp-based navigation. Built with React (Vite), Node.js, Express, and PostgreSQL.
+A full-stack application that enables users to search through YouTube video transcripts with timestamp-based navigation. The application allows you to extract transcripts from YouTube videos, store them in a PostgreSQL database, and perform full-text search across all stored transcripts.
 
-## Features
-
-- Extract transcripts from YouTube videos
-- Full-text search through transcripts using PostgreSQL's built-in search capabilities
-- User authentication and authorization
-- Timestamp-based video navigation
-- Real-time search results
-- Responsive design with Tailwind CSS
-
-## Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -39,69 +30,77 @@ graph TD
     end
 ```
 
-## Prerequisites
+## Features
 
-- Node.js (v14 or higher)
-- PostgreSQL (v12 or higher)
-- npm or yarn
+- User authentication and authorization
+- YouTube transcript extraction
+- Full-text search capabilities using PostgreSQL
+- Real-time video playback with timestamp navigation
+- Docker support for easy deployment
+- Comprehensive test coverage
+- CI/CD with GitHub Actions
 
-## Setup Instructions
+## Quick Start
 
-### Backend Setup
+### Prerequisites
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+- Docker Desktop
+- Git
+- Node.js (for local development)
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+### Running with Docker (Recommended)
 
-3. Create a PostgreSQL database:
-   ```sql
-   CREATE DATABASE youtube_transcript;
-   ```
+1. Clone the repository:
+```bash
+git clone https://github.com/ajeetraina/youtube-transcript-search.git
+cd youtube-transcript-search
+```
 
-4. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` with your database credentials and JWT secret.
+2. Create environment files:
+```bash
+# Backend environment
+cat > backend/.env << EOL
+DATABASE_URL=postgresql://ytuser:ytpassword@postgres:5432/youtube_transcript
+JWT_SECRET=dev_secret_key_123
+PORT=3000
+EOL
 
-5. Run migrations:
-   ```bash
-   npm run migrate
-   ```
+# Frontend environment
+cat > frontend/.env << EOL
+VITE_API_URL=http://localhost:3000
+EOL
+```
 
-6. Start the server:
-   ```bash
-   npm run dev
-   ```
+3. Start the services:
+```bash
+docker-compose up --build
+```
 
-### Frontend Setup
+4. Access the application:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3000
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+### Local Development Setup
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+1. Start PostgreSQL:
+```bash
+docker-compose up -d postgres
+```
 
-3. Create environment file:
-   ```bash
-   cp .env.example .env
-   ```
-   Set `VITE_API_URL` to your backend URL (e.g., http://localhost:3000)
+2. Install backend dependencies:
+```bash
+cd backend
+npm install
+npm run migrate
+npm run dev
+```
 
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+3. Install frontend dependencies:
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ## API Endpoints
 
@@ -143,6 +142,64 @@ CREATE TABLE transcripts (
 CREATE INDEX transcript_search_idx ON transcripts USING gin(search_vector);
 ```
 
+## Project Structure
+
+```
+youtube-transcript-search/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── migrations/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── index.js
+│   ├── tests/
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── App.jsx
+│   └── package.json
+├── docker-compose.yml
+└── README.md
+```
+
+## Development
+
+### Running Tests
+
+```bash
+# Backend tests
+cd backend
+npm test
+
+# Frontend tests
+cd frontend
+npm test
+```
+
+### Database Migrations
+
+```bash
+cd backend
+npm run migrate
+```
+
+### Linting
+
+```bash
+# Backend
+cd backend
+npm run lint
+
+# Frontend
+cd frontend
+npm run lint
+```
+
 ## Contributing
 
 1. Fork the repository
@@ -151,15 +208,39 @@ CREATE INDEX transcript_search_idx ON transcripts USING gin(search_vector);
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## Testing
+
+The application includes comprehensive test coverage:
+
+- Frontend: React Testing Library with Vitest
+- Backend: Jest with Supertest
+- Integration tests for API endpoints
+- Database query tests
+- Authentication flow tests
+
+## Security
+
+- JWT-based authentication
+- Password hashing with bcrypt
+- SQL injection prevention
+- CORS configuration
+- Rate limiting (optional)
+
+## Deployment
+
+The application can be deployed using:
+
+1. Docker Compose (provided)
+2. Manual deployment
+3. Cloud platforms (AWS, GCP, Azure)
+
 ## License
 
-MIT License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Future Improvements
+## Acknowledgments
 
-- Add batch processing for multiple videos
-- Implement caching layer for frequent searches
-- Add support for multiple languages
-- Implement real-time transcript updates
-- Add video thumbnail previews
-- Implement advanced search filters
+- YouTube Transcript API
+- PostgreSQL Full-Text Search
+- React and Vite communities
+- Docker and Docker Compose teams
